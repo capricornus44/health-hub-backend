@@ -17,6 +17,7 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const existingUser = await this.db.select().from(schema.users).where(eq(schema.users.email, registerDto.email));
+
     if (existingUser.length > 0) {
       throw new BadRequestException('Email already exists');
     }
@@ -49,9 +50,20 @@ export class AuthService {
   }
 
   async verifyEmail(token: string) {
-    const [user] = await this.db.select().from(schema.users).where(eq(schema.users.verificationToken, token));
+    const trimmedToken = token?.trim();
+
+    if (!trimmedToken) {
+      throw new BadRequestException('Verification token is required');
+    }
+
+    const [user] = await this.db.select().from(schema.users).where(eq(schema.users.verificationToken, trimmedToken));
+
     if (!user) {
-      throw new NotFoundException('Invalid verification token');
+      throw new NotFoundException('Invalid or expired verification token');
+    }
+
+    if (user.isVerified) {
+      throw new BadRequestException('Email is already verified');
     }
 
     await this.db.update(schema.users)
