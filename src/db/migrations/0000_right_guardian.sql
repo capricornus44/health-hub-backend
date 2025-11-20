@@ -1,0 +1,22 @@
+CREATE TABLE "users" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"surname" varchar(255) NOT NULL,
+	"dob" date NOT NULL,
+	"street" varchar(255) NOT NULL,
+	"city" varchar(255) NOT NULL,
+	"house" varchar(255) NOT NULL,
+	"state" varchar(255) NOT NULL,
+	"apartment" varchar(255),
+	"zip" varchar(255) NOT NULL,
+	"phone" varchar(255) NOT NULL,
+	"gender" varchar(50) NOT NULL,
+	"citizenship" varchar(255) NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"password_hash" varchar(255) NOT NULL,
+	"is_verified" boolean DEFAULT false NOT NULL,
+	"verification_token" varchar(255),
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "users_email_unique" UNIQUE("email")
+);
