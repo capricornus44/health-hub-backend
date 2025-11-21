@@ -1,98 +1,475 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🏥 Doctor Appointment System - NestJS Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust and scalable backend API for a doctor appointment management system built with **NestJS**, **Drizzle ORM**, and **PostgreSQL**. This server provides secure user authentication, email verification, and a foundation for managing medical appointments.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## ✨ Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 🔐 Authentication & Security
+- **User Registration** with comprehensive profile data collection
+- **Email Verification** system with secure token-based verification
+- **Password Security** using Argon2 hashing algorithm
+- **Rate Limiting** to prevent abuse (10 requests per 60 seconds)
+- **CORS** enabled for cross-origin requests
+- **Helmet** for enhanced HTTP security headers
+- **Compression** middleware for optimized response sizes
 
-## Project setup
+### 👤 User Management
+- Complete user profile with personal information:
+  - Name, surname, date of birth
+  - Full address (street, city, house, state, apartment, zip)
+  - Contact details (email, phone)
+  - Gender and citizenship
+- Email verification workflow
+- Secure password storage (never exposed in responses)
+
+### 🗄️ Database
+- **PostgreSQL** database with **Drizzle ORM**
+- Type-safe database queries
+- Migration system for schema versioning
+- Separate development and production database configurations
+- Visual database management with Drizzle Studio
+
+---
+
+## 🚀 Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **NestJS** | Progressive Node.js framework |
+| **TypeScript** | Type-safe development |
+| **Drizzle ORM** | Lightweight TypeScript ORM |
+| **PostgreSQL** | Relational database |
+| **Argon2** | Password hashing |
+| **Helmet** | Security middleware |
+| **Compression** | Response compression |
+| **Class Validator** | DTO validation |
+| **pnpm** | Fast, disk space efficient package manager |
+
+---
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18 or higher)
+- **pnpm** (v10.22.0 or higher)
+- **PostgreSQL** (v14 or higher)
+
+---
+
+## 🛠️ Installation
+
+### 1. Clone the repository
 
 ```bash
-$ pnpm install
+git clone <repository-url>
+cd nestjs_server
 ```
 
-## Compile and run the project
+### 2. Install dependencies
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+### 3. Environment Configuration
+
+Create a `.env` file in the root directory:
+
+```env
+# Server Configuration
+PORT=8800
+NODE_ENV=development
+
+# Database URLs
+DATABASE_URL_DEVELOPMENT=postgresql://user:password@localhost:5432/doctor_appointment_dev
+DATABASE_URL_PRODUCTION=postgresql://user:password@localhost:5432/doctor_appointment_prod
+
+# Email Configuration (for future implementation)
+# SMTP_HOST=smtp.example.com
+# SMTP_PORT=587
+# SMTP_USER=your-email@example.com
+# SMTP_PASS=your-password
+```
+
+### 4. Database Setup
+
+Generate and run migrations:
 
 ```bash
-# unit tests
-$ pnpm run test
+# Generate migration files
+pnpm migrate:generate
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+# Apply migrations
+pnpm migrate:up
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 🎯 Available Scripts
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+| Script | Description |
+|--------|-------------|
+| `pnpm start:dev` | Start development server with hot-reload |
+| `pnpm start:prod` | Start production server |
+| `pnpm build` | Build the application |
+| `pnpm lint` | Lint and fix code |
+| `pnpm format` | Format code with Prettier |
+| `pnpm test` | Run unit tests |
+| `pnpm test:e2e` | Run end-to-end tests |
+| `pnpm test:cov` | Run tests with coverage |
+| `pnpm migrate:generate` | Generate database migrations |
+| `pnpm migrate:up` | Apply database migrations |
+| `pnpm studio` | Open Drizzle Studio (database GUI) |
+| `pnpm kill:dev` | Kill process on port 8800 |
+| `pnpm kill:studio` | Kill process on port 4983 |
+
+---
+
+## 📡 API Endpoints
+
+### Authentication
+
+#### Register User
+```http
+POST /auth/register
+Content-Type: application/json
+
+{
+  "name": "John",
+  "surname": "Doe",
+  "dob": "1990-01-15",
+  "street": "123 Main St",
+  "city": "New York",
+  "house": "123",
+  "state": "NY",
+  "apartment": "4B",
+  "zip": "10001",
+  "phone": "+1234567890",
+  "gender": "male",
+  "citizenship": "US",
+  "email": "john.doe@example.com",
+  "password": "SecurePassword123!"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Please check your email to verify your account",
+  "data": {
+    "id": 1,
+    "name": "John",
+    "surname": "Doe",
+    "email": "john.doe@example.com",
+    "isVerified": false,
+    "createdAt": "2025-11-21T14:45:21.000Z",
+    "updatedAt": "2025-11-21T14:45:21.000Z"
+  }
+}
+```
+
+#### Verify Email
+```http
+POST /auth/verify-email
+Content-Type: application/json
+
+{
+  "token": "your-verification-token-here"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Email verified successfully. Please sign in with your login and password"
+}
+```
+
+### Health Check
+
+#### Get Server Status
+```http
+GET /
+```
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-11-21T14:45:21.000Z",
+  "uptime": 12345.67
+}
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+nestjs_server/
+├── src/
+│   ├── auth/                    # Authentication module
+│   │   ├── __tests__/          # Auth tests
+│   │   ├── dto/                # Data Transfer Objects
+│   │   │   └── register.dto.ts
+│   │   ├── auth.controller.ts  # Auth endpoints
+│   │   ├── auth.service.ts     # Auth business logic
+│   │   ├── auth.module.ts      # Auth module definition
+│   │   └── email.service.ts    # Email service (mock)
+│   ├── db/                      # Database layer
+│   │   ├── migrations/         # Database migrations
+│   │   └── schema/             # Database schemas
+│   │       ├── user.schema.ts  # User table schema
+│   │       └── index.ts        # Schema exports
+│   ├── drizzle/                # Drizzle ORM configuration
+│   │   └── drizzle.module.ts   # Drizzle module
+│   ├── types/                  # TypeScript type definitions
+│   ├── app.controller.ts       # Main app controller
+│   ├── app.service.ts          # Main app service
+│   ├── app.module.ts           # Root module
+│   └── main.ts                 # Application entry point
+├── test/                        # E2E tests
+├── drizzle.config.ts           # Drizzle configuration
+├── package.json                # Dependencies
+├── tsconfig.json               # TypeScript configuration
+└── .env                        # Environment variables
+```
+
+---
+
+## 🗄️ Database Schema
+
+### Users Table
+
+| Column | Type | Constraints | Description |
+|--------|------|-------------|-------------|
+| `id` | serial | PRIMARY KEY | Unique user identifier |
+| `name` | varchar(255) | NOT NULL | User's first name |
+| `surname` | varchar(255) | NOT NULL | User's last name |
+| `dob` | date | NOT NULL | Date of birth |
+| `street` | varchar(255) | NOT NULL | Street address |
+| `city` | varchar(255) | NOT NULL | City |
+| `house` | varchar(255) | NOT NULL | House number |
+| `state` | varchar(255) | NOT NULL | State/Province |
+| `apartment` | varchar(255) | NULLABLE | Apartment number |
+| `zip` | varchar(255) | NOT NULL | ZIP/Postal code |
+| `phone` | varchar(255) | NOT NULL | Phone number |
+| `gender` | varchar(50) | NOT NULL | Gender |
+| `citizenship` | varchar(255) | NOT NULL | Citizenship |
+| `email` | varchar(255) | UNIQUE, NOT NULL | Email address |
+| `password_hash` | varchar(255) | NOT NULL | Hashed password |
+| `is_verified` | boolean | DEFAULT false | Email verification status |
+| `verification_token` | varchar(255) | NULLABLE | Email verification token |
+| `created_at` | timestamp | DEFAULT NOW() | Record creation time |
+| `updated_at` | timestamp | DEFAULT NOW() | Last update time |
+
+---
+
+## 🔒 Security Features
+
+### Password Security
+- Passwords are hashed using **Argon2**, a memory-hard hashing algorithm
+- Password hashes are never returned in API responses
+- Secure token generation for email verification using crypto.randomBytes
+
+### Rate Limiting
+- Configured to allow **10 requests per 60 seconds** per IP
+- Prevents brute force attacks and API abuse
+
+### HTTP Security
+- **Helmet** middleware adds security headers:
+  - Content Security Policy
+  - X-Frame-Options
+  - X-Content-Type-Options
+  - Strict-Transport-Security
+  - And more...
+
+### Input Validation
+- All DTOs use **class-validator** decorators
+- Automatic validation of incoming requests
+- Type safety with TypeScript
+
+---
+
+## 🧪 Testing
+
+### Run Unit Tests
+```bash
+pnpm test
+```
+
+### Run E2E Tests
+```bash
+pnpm test:e2e
+```
+
+### Run Tests with Coverage
+```bash
+pnpm test:cov
+```
+
+---
+
+## 🚀 Deployment
+
+### Build for Production
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+pnpm build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Run Production Server
 
-## Resources
+```bash
+# Set environment to production
+export NODE_ENV=production
 
-Check out a few resources that may come in handy when working with NestJS:
+# Start the server
+pnpm start:prod
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Environment Variables for Production
 
-## Support
+Ensure the following environment variables are set:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- `NODE_ENV=production`
+- `PORT` (default: 8800)
+- `DATABASE_URL_PRODUCTION` (PostgreSQL connection string)
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 🔧 Development Tools
 
-## License
+### Drizzle Studio
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Visual database management interface:
+
+```bash
+pnpm studio
+```
+
+Access at: `http://localhost:4983`
+
+### Database Migrations
+
+Generate new migration:
+```bash
+pnpm migrate:generate
+```
+
+Apply migrations:
+```bash
+pnpm migrate:up
+```
+
+---
+
+## 📚 Future Enhancements
+
+- [ ] JWT-based authentication
+- [ ] Refresh token mechanism
+- [ ] Password reset functionality
+- [ ] Doctor profile management
+- [ ] Appointment booking system
+- [ ] Appointment scheduling and calendar
+- [ ] Real email service integration (SendGrid, AWS SES, etc.)
+- [ ] Patient medical records
+- [ ] File upload for documents
+- [ ] Real-time notifications
+- [ ] Admin dashboard
+- [ ] Role-based access control (RBAC)
+- [ ] Payment integration
+- [ ] SMS notifications
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📝 Code Style
+
+This project uses:
+- **ESLint** for linting
+- **Prettier** for code formatting
+
+Run linting and formatting:
+```bash
+pnpm lint
+pnpm format
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Port Already in Use
+
+If port 8800 is already in use:
+```bash
+pnpm kill:dev
+```
+
+### Database Connection Issues
+
+1. Verify PostgreSQL is running
+2. Check database credentials in `.env`
+3. Ensure database exists
+4. Run migrations: `pnpm migrate:up`
+
+### Migration Issues
+
+If migrations fail:
+```bash
+# Drop and recreate database (⚠️ WARNING: This will delete all data)
+dropdb doctor_appointment_dev
+createdb doctor_appointment_dev
+
+# Re-run migrations
+pnpm migrate:up
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the **UNLICENSED** license.
+
+---
+
+## 👨‍💻 Author
+
+Built with ❤️ using NestJS
+
+---
+
+## 📞 Support
+
+For issues and questions:
+- Create an issue in the repository
+- Check existing documentation
+- Review the NestJS documentation: https://docs.nestjs.com
+
+---
+
+## 🙏 Acknowledgments
+
+- [NestJS](https://nestjs.com/) - Progressive Node.js framework
+- [Drizzle ORM](https://orm.drizzle.team/) - TypeScript ORM
+- [PostgreSQL](https://www.postgresql.org/) - Powerful open-source database
+- [Argon2](https://github.com/ranisalt/node-argon2) - Password hashing
+
+---
+
+**Happy Coding! 🚀**
