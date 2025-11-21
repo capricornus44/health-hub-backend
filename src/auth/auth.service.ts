@@ -45,8 +45,9 @@ export class AuthService {
 
     await this.emailService.sendVerificationEmail(user.email, verificationToken);
 
-    const { passwordHash: _, ...result } = user;
-    return result;
+    const { passwordHash: password, verificationToken: token, ...result } = user;
+
+    return { message: 'Please check your email to verify your account', data: result };
   }
 
   async verifyEmail(token: string) {
@@ -70,6 +71,6 @@ export class AuthService {
       .set({ isVerified: true, verificationToken: null })
       .where(eq(schema.users.id, user.id));
 
-    return { message: 'Email verified successfully' };
+    return { message: 'Email verified successfully. Please sign in with your login and password' };
   }
 }

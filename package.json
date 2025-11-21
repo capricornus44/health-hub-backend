@@ -21,7 +21,9 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migrate:generate": "drizzle-kit generate",
     "migrate:up": "drizzle-kit migrate",
-    "studio": "drizzle-kit studio"
+    "studio": "drizzle-kit studio",
+    "kill:dev": "lsof -ti:8800 | xargs kill -9 || true",
+    "kill:studio": "lsof -ti:4983 | xargs kill -9 || true"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
