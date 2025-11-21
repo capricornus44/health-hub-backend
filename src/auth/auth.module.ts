@@ -7,4 +7,4 @@ import { EmailService } from './email.service';
   controllers: [AuthController],
   providers: [AuthService, EmailService],
 })
-export class AuthModule { }
+export class AuthModule {}

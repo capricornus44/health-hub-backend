@@ -17,12 +17,12 @@ import { AuthModule } from './auth/auth.module';
       throttlers: [
         {
           ttl: 60000,
-          limit: 10
-        }
-      ]
+          limit: 10,
+        },
+      ],
     }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
